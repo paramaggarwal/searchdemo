@@ -4,7 +4,12 @@ var React = require('react');
 var App = React.createClass({
   render: function () {
     return (
-      <div>Hello</div>
+      <div>
+        <h1>Hello</h1>
+        <form>
+          <input type='text' /> 
+        </form>
+      </div>
     );
   }
 });

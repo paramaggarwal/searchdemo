@@ -1,18 +1,18 @@
 var express = require('express');
 var router = express.Router();
 
-var superagent = require('superagent');
+var search = require('../clients/search');
 
 /* GET search listing. */
 router.get('/:term', function(req, res, next) {
   var term = req.params.term;
 
-  superagent.get('http://developer.myntra.com/search/data/' + term, function (err, data) {
+  search(term, function (err, data) {
     if (err) {
       return res.status(500).send(err);
     };
 
-    res.send(data.body);
+    res.send(data);
   });
 });
 
