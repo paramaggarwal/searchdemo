@@ -4,8 +4,8 @@ var router = express.Router();
 var search = require('../clients/search');
 
 /* GET search listing. */
-router.get('/:term', function(req, res, next) {
-  var term = req.params.term;
+router.get('/', function(req, res, next) {
+  var term = req.query.q;
 
   search(term, function (err, data) {
     if (err) {
