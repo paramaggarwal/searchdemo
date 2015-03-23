@@ -26,17 +26,25 @@ var Product = React.createClass({
 
 var App = React.createClass({
   getInitialState: function () {
-    return {};
+    return {
+      term: this.props.term
+    };
   },
 
   propTypes: {
-    data: React.PropTypes.object
+    data: React.PropTypes.object,
+    term: React.PropTypes.string
   },
 
   search: function (e) {
     e.preventDefault();
     var self = this;
     var term = (e.type === 'submit') ? e.target.q.value : e.target.value;
+
+    this.setState({
+      term: term
+    });
+    window.history.pushState({}, 'Search Myntra', '/?q='+term.replace(/\W/gi, '+'));
 
     superagent.get('/search').query({q: term}).end(function (err, res) {
       if (err) {
@@ -57,7 +65,7 @@ var App = React.createClass({
         <h1>Search Myntra</h1>
         <p>{data ? data.data.totalProductsCount + ' results' : ''}</p>
         <form action='/' method='get' onSubmit={this.search} >
-          <input type='text' name='q' onChange={this.search} /> 
+          <input type='text' name='q' onChange={this.search} value={this.state.term} /> 
           <input type='submit' value='Search' />
         </form>
         <br /><br />

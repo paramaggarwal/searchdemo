@@ -17,7 +17,8 @@ router.get('/', function(req, res, next) {
       };
 
       var props = {
-        data: data
+        data: data,
+        term: term
       };
 
       res.render('index', {
