@@ -7,18 +7,11 @@ var Product = React.createClass({
   render: function () {
     var product = this.props.product;
 
-    var imageURL = product.search_image;
-    var imageEntry = JSON.parse(product.imageEntry_default);
-    if (imageEntry && imageEntry.servingUploaderType === 'CL') {
-      imageURL = imageEntry.domain + 'w_320/' + imageEntry.relativePath;
-    } else if (imageEntry && imageEntry.servingUploaderType === 'S3') {
-      imageURL = imageEntry.domain + imageEntry.resolutionFormula.replace('($width)', '180').replace('($height)', '240');
-    }
-
     return (
       <div style={{display: 'inline-block'}}>
-        <img src={imageURL} width={160} />
-        {/*//product.brands_filter_facet*/}
+        <a href={'http://myntra.com/' + product.styleid} target='_blank'>
+          <img src={getImageURL(product)} width={160} />
+        </a>
       </div>
     );
   }
@@ -74,5 +67,18 @@ var App = React.createClass({
     );
   }
 });
+
+function getImageURL (product) {
+
+  var imageURL = product.search_image;
+  var imageEntry = JSON.parse(product.imageEntry_default);
+  if (imageEntry && imageEntry.servingUploaderType === 'CL') {
+    imageURL = imageEntry.domain + 'w_320/' + imageEntry.relativePath;
+  } else if (imageEntry && imageEntry.servingUploaderType === 'S3') {
+    imageURL = imageEntry.domain + imageEntry.resolutionFormula.replace('($width)', '180').replace('($height)', '240');
+  }
+
+  return imageURL;
+};
 
 module.exports = App;
