@@ -62,7 +62,7 @@ var App = React.createClass({
           <input type='submit' value='Search' />
         </form>
         <br /><br />
-        {data ? data.data.results.products.map(function (product, i) { return <Product key={product.id} product={product} /> }) : ''}
+        {data ? data.data.results.products.map(function (product, i) { return <Product key={product.id} product={product} /> }) : 'No results'}
       </div>
     );
   }
