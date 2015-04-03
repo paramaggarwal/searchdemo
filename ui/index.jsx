@@ -9,7 +9,7 @@ var Product = React.createClass({
 
     return (
       <div style={{display: 'inline-block'}}>
-        <a href={'http://myntra.com/' + product.styleid} target='_blank'>
+        <a href={'http://myntra.com/' + product.id} target='_blank'>
           <img src={getImageURL(product)} width={160} />
         </a>
       </div>
@@ -25,7 +25,7 @@ var App = React.createClass({
   },
 
   propTypes: {
-    data: React.PropTypes.object,
+    results: React.PropTypes.object,
     term: React.PropTypes.string
   },
 
@@ -45,24 +45,24 @@ var App = React.createClass({
       };
 
       self.setState({
-        data: res.body
+        results: res.body
       });
     });
   },
 
   render: function () {
-    var data = this.state.data || this.props.data;
+    var results = this.state.results || this.props.results;
 
     return (
       <div>
         <h1>Search Myntra</h1>
-        <p>{data ? data.data.totalProductsCount + ' results' : ''}</p>
+        <p>{results ? results.totalCount + ' results' : ''}</p>
         <form action='/' method='get' onSubmit={this.search} >
           <input type='text' name='q' onChange={this.search} value={this.state.term} /> 
           <input type='submit' value='Search' />
         </form>
         <br /><br />
-        {data ? data.data.results.products.map(function (product, i) { return <Product key={product.id} product={product} /> }) : 'No results'}
+        {results ? results.results.map(function (product, i) { return <Product key={product.id} product={product} /> }) : 'No results'}
       </div>
     );
   }
@@ -70,13 +70,13 @@ var App = React.createClass({
 
 function getImageURL (product) {
 
-  var imageURL = product.search_image;
-  var imageEntry = JSON.parse(product.imageEntry_default);
-  if (imageEntry && imageEntry.servingUploaderType === 'CL') {
-    imageURL = imageEntry.domain + 'w_320/' + imageEntry.relativePath;
-  } else if (imageEntry && imageEntry.servingUploaderType === 'S3') {
-    imageURL = imageEntry.domain + imageEntry.resolutionFormula.replace('($width)', '180').replace('($height)', '240');
-  }
+  var imageURL = product.styleImages.default.resolutions['180X240'];
+  // var imageEntry = JSON.parse(product.imageEntry_default);
+  // if (imageEntry && imageEntry.servingUploaderType === 'CL') {
+  //   imageURL = imageEntry.domain + 'w_320/' + imageEntry.relativePath;
+  // } else if (imageEntry && imageEntry.servingUploaderType === 'S3') {
+  //   imageURL = imageEntry.domain + imageEntry.resolutionFormula.replace('($width)', '180').replace('($height)', '240');
+  // }
 
   return imageURL;
 };

@@ -1,15 +1,9 @@
-var browserify = require('browserify-middleware');
-require('node-jsx').install();
-
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
-var routes = require('./routes/index');
-var search = require('./routes/search');
 
 var app = express();
 
@@ -25,9 +19,15 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+var browserify = require('browserify-middleware');
 app.get('/bundle.js', browserify('./browser.js', {
   transform: ['reactify']
 }))
+
+require('node-jsx').install({extension: '.jsx'});
+
+var routes = require('./routes/index.jsx');
+var search = require('./routes/search.jsx');
 
 app.use('/', routes);
 app.use('/search', search);

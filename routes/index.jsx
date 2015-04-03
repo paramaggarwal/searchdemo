@@ -3,7 +3,7 @@ var router = express.Router();
 
 var React = require('react');
 var search = require('../clients/search');
-var App = require('../ui');
+var App = require('../ui/index.jsx');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -17,7 +17,7 @@ router.get('/', function(req, res, next) {
       };
 
       var props = {
-        data: data,
+        results: data,
         term: term
       };
 
